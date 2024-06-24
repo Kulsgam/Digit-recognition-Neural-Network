@@ -47,6 +47,14 @@ def he_initialization(
     )  # Destructure the shape using `*`
 
 
+def z(
+    prev_layer: np.ndarray[Tuple[int], np.dtype[np.float64]],
+    weights: np.ndarray[Tuple[int, int], np.dtype[np.float64]],
+    biases: np.ndarray[Tuple[int], np.dtype[np.float64]],
+):
+    return np.dot(prev_layer, weights) + biases
+
+
 def tanh(x: ActivationType) -> ActivationType:
     return np.tanh(x)  # type: ignore
 
