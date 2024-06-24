@@ -7,7 +7,7 @@ Classes:
 
 Functions:
     read_labels(file_name: str) -> npt.NDArray[np.uint8]: Reads the labels from the dataset file.
-    read_images(file_name: str) -> np.ndarray[Tuple[int, int, int], np.dtype[np.uint8]]: 
+    read_images(file_name: str) -> np.ndarray[Tuple[int, int, int], np.dtype[np.uint8]]:
     Reads the images from the dataset file.
 
 References:
@@ -19,7 +19,6 @@ from dataclasses import dataclass
 from typing import Tuple
 
 import numpy as np
-import numpy.typing as npt
 
 
 @dataclass
@@ -33,7 +32,7 @@ class ModelData:
     """
 
     images: np.ndarray[Tuple[int, int, int], np.dtype[np.uint8]]
-    labels: npt.NDArray[np.uint8]
+    labels: np.ndarray[Tuple[int], np.dtype[np.uint8]]
 
 
 def get_training_data() -> ModelData:
@@ -62,7 +61,7 @@ def get_testing_data() -> ModelData:
     return ModelData(images, labels)
 
 
-def read_labels(file_name: str) -> npt.NDArray[np.uint8]:
+def read_labels(file_name: str) -> np.ndarray[Tuple[int], np.dtype[np.uint8]]:
     """
     Used to read the labels from the dataset file
 
