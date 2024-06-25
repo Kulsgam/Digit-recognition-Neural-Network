@@ -77,7 +77,9 @@ def read_labels(file_name: str) -> np.ndarray[Tuple[int], np.dtype[np.uint8]]:
     return labels
 
 
-def read_images(file_name: str) -> np.ndarray[Tuple[int, int, int], np.dtype[np.float64]]:
+def read_images(
+    file_name: str,
+) -> np.ndarray[Tuple[int, int, int], np.dtype[np.float64]]:
     """
     Used to read the images from the dataset file
 
