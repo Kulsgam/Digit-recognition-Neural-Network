@@ -5,7 +5,8 @@ Functions:
     main(): Handles all of the abstracted logic for the perceptron model.
 """
 
-from data import get_training_data
+from data import get_training_data, get_testing_data
+from nn import NeuralNetwork
 
 
 def main():
@@ -13,9 +14,9 @@ def main():
     Handles all of the abstracted logic for the perceptron model.
     """
 
-    training_data = get_training_data()
-    print(training_data.images.shape)
-    print(training_data.labels.shape)
+    nn = NeuralNetwork(get_training_data())
+    nn.train()
+    print("Accuracy: ", nn.test(get_testing_data()))
 
 
 if __name__ == "__main__":
