@@ -94,7 +94,8 @@ def read_images(
         num_images = int.from_bytes(f.read(4), "big")  # "big" for big-endian
         num_rows = int.from_bytes(f.read(4), "big")  # Dimension of the image
         num_cols = int.from_bytes(f.read(4), "big")  # Dimension of the image
-        images = np.frombuffer(f.read(), dtype=np.float64).reshape(
+        images = np.frombuffer(f.read(), dtype=np.uint8).reshape(
             num_images, num_rows, num_cols
         )  # 3D array for all the images with dimensions 28x28
-    return images
+
+    return images / 255.0  # Normalize the pixel values to be between 0 and 1
