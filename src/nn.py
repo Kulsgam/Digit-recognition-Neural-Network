@@ -85,16 +85,24 @@ class NeuralNetwork:
         if curr_layer_idx == 0:
             return
 
-        d_z_weights = np.atleast_2d(self.layers[curr_layer_idx - 1])  # Shape: (y, 1)
+        d_z_weights = np.atleast_2d(self.layers[curr_layer_idx - 1])  # Shape: (1, y)
         d_z_biases = 1
         d_activation_z = self._activation_derivative(
             self.layers[curr_layer_idx]
         )  # Shape: (x,)
 
         delta = d_activation_z * d_error_activation  # Shape: (x,)
-        delta_2D = np.atleast_2d(delta)  # Shape: (x, 1)
+        delta_2D = np.atleast_2d(delta)  # Shape: (1, x)
 
-        d_error_weights = np.dot(d_z_weights, delta_2D.T)  # Shape: (y, x)
+        # print(
+        #     self.all_weights[curr_layer_idx - 1].shape,
+        #     d_z_weights.shape,
+        #     d_activation_z.shape,
+        #     delta.shape,
+        #     delta_2D.shape,
+        # )
+
+        d_error_weights = np.dot(d_z_weights.T, delta_2D)  # Shape: (y, x)
         d_error_biases = d_z_biases * delta  # Shape: (x,)
 
         # Calculating the gradient of the error of the previous layer (d_error/d_activation)
@@ -103,6 +111,8 @@ class NeuralNetwork:
         d_prev_error_activation = np.dot(
             self.all_weights[curr_layer_idx - 1], delta
         )  # Shape: (y,)
+        # print(d_prev_error_activation.shape)
+        # exit()
         # Now use this to recursively calculate the gradient of the error of the previous layer
         # What I mean is to repeat
 
