@@ -128,6 +128,7 @@ class NeuralNetwork:
         length = self.training_data.images.shape[0]
 
         for i in range(length):
+            print("Image: ", i)
             image = self.training_data.images[i]
             label = self.training_data.labels[i]
 
@@ -163,7 +164,8 @@ class NeuralNetwork:
         """
         Trains the neural network using the entire dataset.
         """
-        for _ in range(self.epochs):
+        for i in range(self.epochs):
+            print("\nEpoch: ", i, "\n")
             self._gradient_descent()
 
     def test(self, testing_data: ModelData) -> float:
