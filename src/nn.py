@@ -6,13 +6,17 @@ Classes:
     NeuralNetwork: A class representing the neural network.
 
 Functions:
+    train: Trains the neural network using the entire dataset.
+    test: Tests the neural network on the provided testing data.
     _activation: Chooses an activation function to use.
     _activation_derivative: Computes the derivative of the activation function.
     _get_layer_activations: Computes the activations for a layer.
     _feed_forward: Performs a feedforward pass through the network.
-    train: Trains the neural network using the entire dataset.
     _backpropagate: Performs backpropagation to update weights and biases.
-    test: Tests the neural network on the provided testing data.
+    _gradient_descent: Performs batch gradient descent, stochastic gradient descent or mini-batch gradient descent
+    _batch_gd: Performs batch gradient descent
+    _sgd: Performs stochastic gradient descent
+    _mini_batch_gd: Performs mini-batch gradient descent
 """
 
 from typing import Tuple
@@ -54,6 +58,39 @@ class NeuralNetwork:
             xavier_initialization((LAYER_DIMENSIONS[i], LAYER_DIMENSIONS[i + 1]))
             for i in range(len(LAYER_DIMENSIONS) - 1)
         ]
+
+    def train(self):
+        """
+        Trains the neural network using the entire dataset.
+        """
+        for i in range(self.epochs):
+            print("\nEpoch: ", i, "\n")
+            self._gradient_descent()
+
+    def test(self, testing_data: ModelData) -> float:
+        """
+        Tests the neural network on the provided testing data.
+
+        Args:
+            testing_data: The testing data containing images and labels.
+
+        Returns:
+            The accuracy of the neural network on the testing data.
+        """
+
+        num_correct = 0
+        length = testing_data.images.shape[0]
+
+        for i in range(length):
+            image = testing_data.images[i]
+            label = testing_data.labels[i]
+
+            self._feed_forward(image)
+
+            if np.argmax(self.layers[-1]) == label:
+                num_correct += 1
+
+        return num_correct / length
 
     def _activation(self, x: ActivationType):
         return sigmoid(x)
@@ -123,12 +160,11 @@ class NeuralNetwork:
 
         self._backpropogate(d_prev_error_activation, curr_layer_idx - 1)
 
-    def _gradient_descent(self):
+    def _batch_gd(self):
         # Initially I train using the entire dataset instead of SGD or mini-batch
         length = self.training_data.images.shape[0]
 
         for i in range(length):
-            print("Image: ", i)
             image = self.training_data.images[i]
             label = self.training_data.labels[i]
 
@@ -160,35 +196,11 @@ class NeuralNetwork:
 
             self._backpropogate(d_error_activation, curr_layer_idx)
 
-    def train(self):
-        """
-        Trains the neural network using the entire dataset.
-        """
-        for i in range(self.epochs):
-            print("\nEpoch: ", i, "\n")
-            self._gradient_descent()
+    def _mini_batch_gd(self):
+        pass
 
-    def test(self, testing_data: ModelData) -> float:
-        """
-        Tests the neural network on the provided testing data.
+    def _sgd(self):
+        pass
 
-        Args:
-            testing_data: The testing data containing images and labels.
-
-        Returns:
-            The accuracy of the neural network on the testing data.
-        """
-
-        num_correct = 0
-        length = testing_data.images.shape[0]
-
-        for i in range(length):
-            image = testing_data.images[i]
-            label = testing_data.labels[i]
-
-            self._feed_forward(image)
-
-            if np.argmax(self.layers[-1]) == label:
-                num_correct += 1
-
-        return num_correct / length
+    def _gradient_descent(self):
+        return self._batch_gd()
