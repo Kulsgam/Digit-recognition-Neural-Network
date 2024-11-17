@@ -161,6 +161,12 @@ class NeuralNetwork:
         self._backpropogate(d_prev_error_activation, curr_layer_idx - 1)
 
     def _batch_gd(self):
+        pass
+
+    def _mini_batch_gd(self):
+        pass
+
+    def _sgd(self):
         # Initially I train using the entire dataset instead of SGD or mini-batch
         length = self.training_data.images.shape[0]
 
@@ -195,12 +201,6 @@ class NeuralNetwork:
             )  # Shape: (x,)
 
             self._backpropogate(d_error_activation, curr_layer_idx)
-
-    def _mini_batch_gd(self):
-        pass
-
-    def _sgd(self):
-        pass
 
     def _gradient_descent(self):
         return self._batch_gd()
